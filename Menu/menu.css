@@ -1,0 +1,31 @@
+
+
+.main-container{
+    background-image: url("../assets/portada.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: center;
+    width:100vw;
+    height:100vh ;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    gap:30px;
+   
+}
+
+.start ,.options{
+    width: 200px;
+    height: 80px;
+    border-radius: 8px;
+    background-color: rgb(156, 179, 38);
+    font-size: 15px;
+    font-weight: bold;
+    transition: transform 0.25s ease-out;
+    margin-top: 300px;
+   
+
+}
+button:hover {
+    transform: translateY(-8px) scale(1.05); /* Sube y crece un poco */
+}
