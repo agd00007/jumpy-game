@@ -23,9 +23,79 @@
     font-weight: bold;
     transition: transform 0.25s ease-out;
     margin-top: 300px;
+    cursor:pointer
+    
    
 
 }
 button:hover {
     transform: translateY(-8px) scale(1.05); /* Sube y crece un poco */
+}
+
+.second-container {
+
+    width: 500px;
+    height: 300px;
+    border:solid green;
+    background-color: rgba(164, 245, 215, 1);
+    position: absolute;
+    margin-top: -350px;
+    margin-left: 180px;
+
+
+}
+
+.none{
+    display:none
+}
+
+.button{
+    display:flex;
+    flex-wrap: wrap;
+    gap:20px
+}
+
+.second-container ,h1{
+    text-align: center;
+    font-size: 30px;
+}
+
+.first-button, .second-button, .third-button{
+    
+    justify-content: center;
+    width: 200px;
+    height: 90px;
+    align-items: center;
+    gap:20px;
+    margin-left: 25px;
+    background-color:  rgb(156, 179, 38);
+    transition: transform 0.25s ease-out;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 8px;
+    border:solid green;
+
+}
+
+.third-button{
+    margin-left: 130px;
+}
+
+.close{
+   width: 50px; 
+   height: 50px;
+   position: absolute;
+   align-items: center;
+   right: 0px;
+   margin-top: -78px;
+   cursor:pointer;
+   background: none;
+   border:none;
+   font-size: 20px;
+   color: black
+   
+   
+   
+
 }
