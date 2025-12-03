@@ -18,7 +18,7 @@
     width: 200px;
     height: 80px;
     border-radius: 8px;
-    background-color: rgb(156, 179, 38);
+    background-color: rgb(236, 236, 65);
     font-size: 15px;
     font-weight: bold;
     transition: transform 0.25s ease-out;
@@ -35,13 +35,13 @@ button:hover {
 .second-container {
 
     width: 500px;
-    height: 300px;
+    height: 410px;
     border:solid green;
     background-color: rgba(164, 245, 215, 1);
     position: absolute;
-    margin-top: -350px;
-    margin-left: 180px;
-
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
 
 }
 
@@ -52,7 +52,8 @@ button:hover {
 .button{
     display:flex;
     flex-wrap: wrap;
-    gap:20px
+    gap:20px;
+    margin-top:15%
 }
 
 .second-container ,h1{
@@ -68,7 +69,7 @@ button:hover {
     align-items: center;
     gap:20px;
     margin-left: 25px;
-    background-color:  rgb(156, 179, 38);
+    background-color:  rgb(236, 236, 65);;
     transition: transform 0.25s ease-out;
     cursor: pointer;
     font-size: 15px;
@@ -88,7 +89,7 @@ button:hover {
    position: absolute;
    align-items: center;
    right: 0px;
-   margin-top: -78px;
+   margin-top: -130px;
    cursor:pointer;
    background: none;
    border:none;
