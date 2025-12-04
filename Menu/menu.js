@@ -1,61 +1,45 @@
-const startBtn=document.querySelector('.start');
-const optionsBtn=document.querySelector('.options')
-const closeBtn=document.querySelector('.close')
-const firstButtonBtn=document.querySelector('.first-button')
-const secondButtonBtn=document.querySelector('.second-button')
-const thirdButtonBtn=document.querySelector('.third-button')
+const startBtn = document.querySelector('.start');
+const optionsBtn = document.querySelector('.options');
+const closeBtn = document.querySelector('.close');
+const firstButtonBtn = document.querySelector('.first-button');
+const secondButtonBtn = document.querySelector('.second-button');
+const thirdButtonBtn = document.querySelector('.third-button');
 
 
-let openMenu=false;
-
-let selectedDifficulty="easy"
-
-
-//cuando hacemos start ocultamos el menu y empieza el juego
 startBtn.addEventListener("click", () => {
+    setDifficulty();
+
     document.querySelector(".main-container").classList.add("none");
-    window.location.href = "../game/game.html"; 
+    document.querySelector(".second-container").classList.add("none");
+    document.getElementById("gameCanvas").classList.remove("none");
 });
 
-function updateOpenMenu(){
 
-    if(!openMenu){
-        openMenu=true,
-        document.querySelector('.second-container').classList.remove('none')
-        canvas.classList.remove("none")
-    }
-}
-
-function closeMenu(){
-
-    openMenu=false;
-    document.querySelector(".second-container").classList.add("none")
-
-}
+optionsBtn.addEventListener("click", () => {
+    document.querySelector(".second-container").classList.remove("none");
+});
 
 
+closeBtn.addEventListener("click", () => {
 
-optionsBtn.addEventListener('click',updateOpenMenu)
-closeBtn.addEventListener('click', closeMenu);
+    setDifficulty()
 
+    document.querySelector(".second-container").classList.add("none");
+});
 
-function startGameWithDifficulty(difficulty) {
-        // Guardamos la dificultad en localStorage para que game.html la lea
-        localStorage.setItem('difficulty', difficulty);
-        window.location.href = "../game/game.html"; // Redirige a la página del juego
-    }
 
 firstButtonBtn.addEventListener("click", () => {
     localStorage.setItem("difficulty", "easy");
-    window.location.href = "../game/game.html";
+    startBtn.click()
 });
 
 secondButtonBtn.addEventListener("click", () => {
     localStorage.setItem("difficulty", "medium");
-    window.location.href = "../game/game.html";
+    startBtn.click()
+  
 });
 
 thirdButtonBtn.addEventListener("click", () => {
     localStorage.setItem("difficulty", "hard");
-    window.location.href = "../game/game.html";
+    startBtn.click()
 });

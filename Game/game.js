@@ -1,5 +1,6 @@
-const canvas = document.querySelector("canvas");
+const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
+
 
 // Canvas size
 canvas.width = 1500;
@@ -165,27 +166,33 @@ function draw() {
     requestAnimationFrame(draw);
 }
 
-// Start drawing
-draw();
 
-// Keyboard handlers
+
+
 document.addEventListener("keydown", keyPressed);
 document.addEventListener("keyup", keyNotPressed);
 
 function keyPressed(e) {
-    if (e.key === "ArrowRight") rightPressed = true;
-    else if (e.key === "ArrowLeft") leftPressed = true;
+    if (e.key === "ArrowRight")
+         rightPressed = true;
+    else if (e.key === "ArrowLeft") 
+        leftPressed = true;
     else if (e.key === "ArrowUp" && !isJumping) {
         isJumping = true;
         jumpVelocityY = jumpStrength;
-    } else if (e.key === "ArrowDown") downPressed = true;
+    } else if (e.key === "ArrowDown")
+         downPressed = true;
 }
 
 function keyNotPressed(e) {
-    if (e.key === "ArrowRight") rightPressed = false;
-    else if (e.key === "ArrowLeft") leftPressed = false;
-    else if (e.key === "ArrowUp") upPressed = false;
-    else if (e.key === "ArrowDown") downPressed = false;
+    if (e.key === "ArrowRight") 
+        rightPressed = false;
+    else if (e.key === "ArrowLeft") 
+        leftPressed = false;
+    else if (e.key === "ArrowUp") 
+        upPressed = false;
+    else if (e.key === "ArrowDown") 
+        downPressed = false;
 }
 
 // Collision detection
@@ -288,17 +295,23 @@ function crashStar2() {
     if (touching && isJumping) starVisible2 = false;
 }
 
-// Difficulty
+// dificultad
 function setDifficulty() {
-    if (difficulty === "easy") fenceSpeedDifficulty = 1;
-    else if (difficulty === "medium") fenceSpeedDifficulty = 2;
-    else if (difficulty === "hard") fenceSpeedDifficulty = 4;
+
+    let difficulty = localStorage.getItem("difficulty") || "easy";
+
+    if (difficulty === "easy") 
+        fenceSpeedDifficulty = 1;
+    else if (difficulty === "medium") 
+        fenceSpeedDifficulty = 2;
+    else if (difficulty === "hard")
+         fenceSpeedDifficulty = 5;
 
     fenceSpeed = fenceSpeedBase;
     fence2Speed = fenceSpeedDifficulty;
 }
 
 backgroundImg.onload = () => {
-    setDifficulty();
+    
     draw();
 };
