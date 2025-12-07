@@ -78,22 +78,22 @@ let difficulty = localStorage.getItem("difficulty") || "easy";
 
 // Load images
 const backgroundImg = new Image();
-backgroundImg.src = "../assets/menu.avif";
+backgroundImg.src = "/assets/menu.avif";
 
 const mario = new Image();
-mario.src = "../assets/Mario.png";
+mario.src = "/assets/Mario.png";
 
 const fence = new Image();
-fence.src = "../assets/valla.png";
+fence.src = "/assets/valla.png";
 
 const fence2 = new Image();
-fence2.src = "../assets/valla.png";
+fence2.src = "/assets/valla.png";
 
 const star = new Image();
-star.src = "../assets/star.png";
+star.src = "/assets/star.png";
 
 const star2 = new Image();
-star2.src = "../assets/star.png";
+star2.src = "/assets/star.png";
 
 // Draw functions
 function drawBackground() {
