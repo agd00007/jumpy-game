@@ -3,47 +3,33 @@ const ctx = canvas.getContext("2d");
 
 
 // Canvas size
-canvas.width = 1500;
+canvas.width = 1000;
 canvas.height = 600;
 
 // Mario position
 let marioX = 20;
-let marioY = 250;
-let marioWidth = 150;
-let marioHeight = 350;
+let marioY = 400;
+let marioWidth = 120;
+let marioHeight = 180;
 
-// Fence 1 position
-let fenceX = 300;
-let fenceY = 380;
-let fenceWidth = 200;
-let fenceHeight = 100;
 
-// Fence 2 position
-let fence2X = 900;
-let fence2Y = 300;
-let fence2Width = 200;
-let fence2Height = 100;
 
-// Fence movement
-let fenceSpeedBase = 1;
-let fenceSpeed = 1;
-let fence2Speed = 1;
 
-// Stars
-let starVisible = true;
-let starVisible2 = true;
+let stars = [
+    { x: 90,  y: 240, w: 70, h: 70, visible: true },
+    { x: 150, y: 390, w: 70, h: 70, visible: true },
+    { x: 240, y: 200, w: 70, h: 70, visible: true },
+    { x: 720, y: 140, w: 70, h: 70, visible: true },
+    { x: 400, y: 400, w: 70, h: 70, visible: true },
+    { x: 500, y: 180, w: 70, h: 70, visible: true },
+    { x: 600, y: 300, w: 70, h: 70, visible: true },
+    { x: 330, y: 260, w: 70, h: 70, visible: true },
+    { x: 800, y: 330, w: 70, h: 70, visible: true },
+    { x: 700, y: 440, w: 70, h: 70, visible: true }
+];
 
-// Star 1 position
-let starX = 350;
-let starY = 400;
-let starWidth = 100;
-let starHeight = 100;
 
-// Star 2 position
-let star2X = 950;
-let star2Y = 400;
-let star2Width = 100;
-let star2Height = 100;
+
 
 // Keyboard flags
 let rightPressed = false;
@@ -56,7 +42,7 @@ let isJumping = false;
 let jumpVelocityY = -1;
 let jumpStrength = -18;
 let gravity = 0.8;
-let ground = 250;
+let ground = 400;
 
 // Score
 let crashes = 0;
@@ -68,8 +54,8 @@ let controlJump = false;
 let controlJump2 = false;
 
 // Collision margins
-let margin = 40;
-let marginHeight = 20;
+let margin = 10;
+let marginHeight = 10;
 
 let fenceSpeedDifficulty = 1;
 
@@ -78,22 +64,15 @@ let difficulty = localStorage.getItem("difficulty") || "easy";
 
 // Load images
 const backgroundImg = new Image();
-backgroundImg.src = "/assets/menu.avif";
+backgroundImg.src = "./assets/menu.avif";
 
 const mario = new Image();
-mario.src = "/assets/Mario.png";
-
-const fence = new Image();
-fence.src = "/assets/valla.png";
-
-const fence2 = new Image();
-fence2.src = "/assets/valla.png";
+mario.src = "./assets/Mario.png";
 
 const star = new Image();
-star.src = "/assets/star.png";
+star.src = "./assets/star.png";
 
-const star2 = new Image();
-star2.src = "/assets/star.png";
+
 
 // Draw functions
 function drawBackground() {
@@ -104,13 +83,6 @@ function drawMario() {
     ctx.drawImage(mario, marioX, marioY, marioWidth, marioHeight);
 }
 
-function drawFence() {
-    ctx.drawImage(fence, fenceX, fenceY, fenceWidth, fenceHeight);
-}
-
-function drawFence2() {
-    ctx.drawImage(fence2, fence2X, fence2Y, fence2Width, fence2Height);
-}
 
 function drawScore() {
     ctx.font = "20px Arial";
@@ -118,15 +90,15 @@ function drawScore() {
     ctx.fillText("Score: " + crashes, 10, 30);
 }
 
-function drawStar() {
-    if (starVisible)
-        ctx.drawImage(star, starX, starY, starWidth, starHeight);
+
+function drawStars(){
+    stars.forEach (starDraw =>{
+        if(starDraw.visible){
+            ctx.drawImage(star, starDraw.x, starDraw.y, starDraw.w, starDraw.h)
+        }
+    })
 }
 
-function drawStar2() {
-    if (starVisible2)
-        ctx.drawImage(star2, star2X, star2Y, star2Width, star2Height);
-}
 
 // Main draw loop
 function draw() {
@@ -134,20 +106,17 @@ function draw() {
 
     drawBackground();
     drawMario();
-    drawFence();
-    drawFence2();
-    drawStar();
-    drawStar2();
-    checkCollision();
-    crashStar();
-    crashStar2();
+    drawStars();
+    starCollision();
+    
+    
+    
     drawScore();
-    moveFence();
-    moveFence2();
+   
 
     // Mario movement
-    if (rightPressed) marioX += 5;
-    if (leftPressed) marioX -= 5;
+    if (rightPressed) marioX += 2;
+    if (leftPressed) marioX -= 2;
 
     if (isJumping) {
         marioY += jumpVelocityY;
@@ -163,9 +132,10 @@ function draw() {
         jumpVelocityY = 0;
     }
 
+    
+
     requestAnimationFrame(draw);
 }
-
 
 
 
@@ -195,105 +165,32 @@ function keyNotPressed(e) {
         downPressed = false;
 }
 
-// Collision detection
-function checkCollision() {
-    let touchingFence1 =
-        marioX + marioWidth - margin > fenceX &&
-        marioX + margin < fenceX + fenceWidth &&
-        marioY + marioHeight - margin > fenceY + marginHeight &&
-        marioY + margin < fenceY + fenceHeight;
 
-    if (touchingFence1 && !controlCollision) {
-        controlCollision = true;
-        crashes -= 5;
-    }
-    if (!touchingFence1) controlCollision = false;
-
-    // Jumping over fence
-    let jumpedFence1 =
-        isJumping &&
-        marioX + marioWidth > fenceX &&
-        marioX < fenceX + fenceWidth &&
-        marioY + marioHeight <= fenceY;
-
-    if (jumpedFence1 && !controlJump) {
-        controlJump = true;
-        crashes += 10;
-    }
-    if (!jumpedFence1) controlJump = false;
-
-    // Fence 2 collision
-    let touchingFence2 =
-        marioX + marioWidth - margin > fence2X &&
-        marioX + margin < fence2X + fence2Width &&
-        marioY + marioHeight - margin > fence2Y + marginHeight &&
-        marioY + margin < fence2Y + fence2Height;
-
-    if (touchingFence2 && !controlCollision2) {
-        controlCollision2 = true;
-        crashes -= 10;
-    }
-    if (!touchingFence2) controlCollision2 = false;
-
-    // Jumping over fence 2
-    let jumpedFence2 =
-        isJumping &&
-        marioX + marioWidth > fence2X &&
-        marioX < fence2X + fence2Width &&
-        marioY + marioHeight <= fence2Y;
-
-    if (jumpedFence2 && !controlJump2) {
-        controlJump2 = true;
-        crashes += 10;
-    }
-    if (!jumpedFence2) controlJump2 = false;
-}
-
-// Move fences
-function moveFence() {
-    fenceY += fenceSpeed;
-
-    starY = fenceY - starHeight;
-
-    if (fenceY <= 0) fenceSpeed = fenceSpeedDifficulty;
-    if (fenceY + fenceHeight >= canvas.height)
-        fenceSpeed = -fenceSpeedDifficulty;
-}
-
-function moveFence2() {
-    fence2Y += fence2Speed;
-
-    star2Y = fence2Y - star2Height;
-
-    if (fence2Y <= 0) fence2Speed = fenceSpeedDifficulty;
-    if (fence2Y + fence2Height >= canvas.height)
-        fence2Speed = -fenceSpeedDifficulty;
-}
 
 // Star collision
-function crashStar() {
-    if (!starVisible) return;
 
-    let touching =
-        marioX < starX + starWidth &&
-        marioX + marioWidth > starX &&
-        marioY < starY + starHeight &&
-        marioY + marioHeight > starY;
+function starCollision(){
 
-    if (touching && isJumping) starVisible = false;
+    stars.forEach(star=>{
+        if (!star.visible)return;
+
+        let touching =
+            marioX < star.x + star.w &&
+            marioX + marioWidth > star.x &&
+            marioY < star.y + star.h &&
+            marioY + marioHeight > star.y;
+
+        if(touching && isJumping){
+            star.visible=false;
+            crashes ++;
+        }
+
+    })
 }
 
-function crashStar2() {
-    if (!starVisible2) return;
 
-    let touching =
-        marioX < star2X + star2Width &&
-        marioX + marioWidth > star2X &&
-        marioY < star2Y + star2Height &&
-        marioY + marioHeight > star2Y;
 
-    if (touching && isJumping) starVisible2 = false;
-}
+
 
 // dificultad
 function setDifficulty() {
@@ -307,8 +204,7 @@ function setDifficulty() {
     else if (difficulty === "hard")
          fenceSpeedDifficulty = 5;
 
-    fenceSpeed = fenceSpeedBase;
-    fence2Speed = fenceSpeedDifficulty;
+    
 }
 
 backgroundImg.onload = () => {
