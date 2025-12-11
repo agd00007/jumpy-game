@@ -14,8 +14,8 @@ let marioHeight = 180;
 
 
 
-
-let stars = [
+//stars position
+const stars = [
     { x: 90,  y: 240, w: 70, h: 70, visible: true },
     { x: 150, y: 390, w: 70, h: 70, visible: true },
     { x: 240, y: 200, w: 70, h: 70, visible: true },
@@ -57,7 +57,10 @@ let controlJump2 = false;
 let margin = 10;
 let marginHeight = 10;
 
-let fenceSpeedDifficulty = 1;
+//timer
+
+let timer=20;
+let timerRunning=true
 
 // Difficulty
 let difficulty = localStorage.getItem("difficulty") || "easy";
@@ -99,6 +102,23 @@ function drawStars(){
     })
 }
 
+setInterval(()=>{
+    if (timerRunning){
+        timer --;
+
+        if(timer <=0){
+            timerRunning=false;
+            endGame()
+        }
+    }
+}, 200)
+
+function drawTimmer() {
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "red";
+    ctx.fillText("Tiempo: " + timer, 800, 30);
+}
+
 
 // Main draw loop
 function draw() {
@@ -108,6 +128,7 @@ function draw() {
     drawMario();
     drawStars();
     starCollision();
+    drawTimmer();
     
     
     
@@ -206,6 +227,12 @@ function setDifficulty() {
 
     
 }
+
+function endGame() {
+    
+    window.location.href = "index.html";  
+}
+
 
 backgroundImg.onload = () => {
     
