@@ -14,8 +14,8 @@ let marioHeight = 180;
 
 
 
-
-let stars = [
+//stars position
+const stars = [
     { x: 90,  y: 240, w: 70, h: 70, visible: true },
     { x: 150, y: 390, w: 70, h: 70, visible: true },
     { x: 240, y: 200, w: 70, h: 70, visible: true },
@@ -57,7 +57,10 @@ let controlJump2 = false;
 let margin = 10;
 let marginHeight = 10;
 
-let fenceSpeedDifficulty = 1;
+//timer
+
+let timer=20;
+let timerRunning=true
 
 // Difficulty
 let difficulty = localStorage.getItem("difficulty") || "easy";
@@ -100,6 +103,14 @@ function drawStars(){
 }
 
 
+
+function drawTimmer() {
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "red";
+    ctx.fillText("Tiempo: " + timer, 800, 30);
+}
+
+
 // Main draw loop
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -108,6 +119,7 @@ function draw() {
     drawMario();
     drawStars();
     starCollision();
+    drawTimmer();
     
     
     
@@ -205,6 +217,39 @@ function setDifficulty() {
          fenceSpeedDifficulty = 5;
 
     
+}
+
+function endGame() {
+    
+
+    timerRunning=false
+    
+    document.querySelector("#stars").textContent=
+    "Has conseguido " + crashes + " estrellas"
+
+    document.querySelector("#modal").style.display="flex"
+}
+
+function resetGame() {
+    crashes = 0;
+    timer = 20;
+    timerRunning = true;
+
+    
+    stars.forEach(start => 
+        start.visible = true);
+
+    
+    marioX = 20;
+    marioY = 400;
+
+    const modal = document.querySelector("#modal");
+    modal.style.display = "none";
+    modal.classList.add("none");
+
+    const canvas = document.getElementById("gameCanvas");
+    canvas.classList.remove("none");
+    draw();
 }
 
 backgroundImg.onload = () => {
