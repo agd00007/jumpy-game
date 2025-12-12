@@ -102,16 +102,7 @@ function drawStars(){
     })
 }
 
-setInterval(()=>{
-    if (timerRunning){
-        timer --;
 
-        if(timer <=0){
-            timerRunning=false;
-            endGame()
-        }
-    }
-}, 200)
 
 function drawTimmer() {
     ctx.font = "20px Arial";
@@ -230,9 +221,36 @@ function setDifficulty() {
 
 function endGame() {
     
-    window.location.href = "index.html";  
+
+    timerRunning=false
+    
+    document.querySelector("#stars").textContent=
+    "Has conseguido " + crashes + " estrellas"
+
+    document.querySelector("#modal").style.display="flex"
 }
 
+function resetGame() {
+    crashes = 0;
+    timer = 20;
+    timerRunning = true;
+
+    
+    stars.forEach(start => 
+        start.visible = true);
+
+    
+    marioX = 20;
+    marioY = 400;
+
+    const modal = document.querySelector("#modal");
+    modal.style.display = "none";
+    modal.classList.add("none");
+
+    const canvas = document.getElementById("gameCanvas");
+    canvas.classList.remove("none");
+    draw();
+}
 
 backgroundImg.onload = () => {
     

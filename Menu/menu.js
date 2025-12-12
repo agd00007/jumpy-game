@@ -4,6 +4,8 @@ const closeBtn = document.querySelector('.close');
 const firstButtonBtn = document.querySelector('.first-button');
 const secondButtonBtn = document.querySelector('.second-button');
 const thirdButtonBtn = document.querySelector('.third-button');
+const retryButtonBtn=document.querySelector("#resart")
+const menuButtonBtn=document.querySelector("#menu")
 
 
 startBtn.addEventListener("click", () => {
@@ -12,6 +14,24 @@ startBtn.addEventListener("click", () => {
     document.querySelector(".main-container").classList.add("none");
     document.querySelector(".second-container").classList.add("none");
     document.getElementById("gameCanvas").classList.remove("none");
+
+    resetGame();
+
+    
+    timerRunning = true;
+    timer = 20;
+
+    const timerInterval = setInterval(() => {
+        if (timerRunning) {
+            timer--;
+
+            if (timer <= 0) {
+                timerRunning = false;
+                clearInterval(timerInterval);
+                endGame();
+            }
+        }
+    }, 1000);
 });
 
 
@@ -43,3 +63,18 @@ thirdButtonBtn.addEventListener("click", () => {
     localStorage.setItem("difficulty", "hard");
     startBtn.click()
 });
+
+
+retryButtonBtn.addEventListener("click", resetGame);
+
+menuButtonBtn.addEventListener("click", ()=>{
+    document.getElementById("gameCanvas").classList.add("none");
+    document.getElementById("modal")
+    modal.classList.add("none");         
+    modal.style.display = "none";
+    
+
+    document.querySelector(".main-container").classList.remove("none")
+
+})
+
